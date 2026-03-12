@@ -500,11 +500,12 @@
 
 /* Rich block: overrides term-line inline-block/pre-wrap for complex HTML content */
 .term-line.rich-block {
-  display: block;
-  white-space: normal;
-  background: none;
-  padding-right: 0;
+  display: block !important;
+  white-space: normal !important;
+  background: none !important;
+  padding-right: 0 !important;
   max-width: 100%;
+  width: 100%;
 }
 
 .listen-embeds {

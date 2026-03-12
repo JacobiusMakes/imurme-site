@@ -183,7 +183,9 @@ export function lock() {
 export function unlock() {
   locked = false;
   inputArea.classList.remove('locked');
-  hiddenInput.focus();
+  // On touch devices, don't auto-focus — it opens the keyboard.
+  // Users tap the input area to type instead.
+  if (!('ontouchstart' in window)) hiddenInput.focus();
 }
 
 export function isLocked() { return locked; }
