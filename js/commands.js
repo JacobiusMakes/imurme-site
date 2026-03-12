@@ -78,21 +78,39 @@ reg('help', ['?'], 'List commands', false, async () => {
 // ── whoami ──────────────────────────────────────────────────
 
 reg('whoami', ['who'], 'Who is IMURME?', false, async () => {
-  term.addLine('Decrypting identity...', 'system');
-  await wait(300);
-  glitch.burst(300);
-  await wait(400);
+  term.clear();
+  term.addBlank();
+  term.addHTML('<span class="hl">WHO IS IMURME?</span>', 'output');
+  term.addHTML('<span class="dim">I Am You Are Me</span>', 'output');
+  term.addBlank();
 
-  // Populate stats if available
+  // Photo + bio side by side
+  term.addHTML(`<div class="whoami-inline">
+    <div class="whoami-photo-frame">
+      <img src="assets/images/jacobius.png" alt="Jacobius" class="whoami-photo">
+      <div class="whoami-photo-label">JACOBIUS — NJ</div>
+    </div>
+    <div class="whoami-bio">
+      <p>IMURME was born in a basement in New Jersey at 3 AM, somewhere between a fever dream and a divine transmission. The brainchild of <span class="accent">Jacobius</span> — producer, curator, architect of controlled chaos.</p>
+      <p>The original commandment was simple: <em>create without judgment.</em> No second-guessing. No committee. No algorithm-approved safe choices. Just raw instinct funneled through a screen until something beautiful and unhinged crawled out the other side.</p>
+      <p>What started as meme compilations set to music became something stranger — a frequency. A shared hallucination between creator and audience. Every reel is a Rorschach test. Every cut is intentional. Every track is a spell.</p>
+      <p class="dim">They say if you watch enough IMURME content in one sitting, you start to hear colors. This has not been verified. Nobody has tried to stop.</p>
+      <p>The name says everything: <span class="accent">I Am You Are Me.</span> There is no fourth wall here. You're not watching — you're inside it. You always were.</p>
+    </div>
+  </div>`, 'output');
+
+  term.addBlank();
+
   const stats = siteData?.meta;
   if (stats) {
-    const reelsEl = document.getElementById('whoami-reels');
-    const viewsEl = document.getElementById('whoami-views');
-    if (reelsEl) reelsEl.textContent = fmt(stats.totalReels);
-    if (viewsEl) viewsEl.textContent = fmt(stats.totalViews);
+    term.addHTML(`  <span class="hl">${fmt(stats.totalReels)}</span> <span class="dim">reels</span>  //  <span class="hl">${fmt(stats.totalViews)}</span> <span class="dim">views</span>  //  <span class="dim">est. 2026</span>`, 'output');
+    term.addBlank();
   }
 
-  term.openPanel('whoami-panel');
+  term.addHTML('  <span class="dim">@</span><a href="https://instagram.com/i.m.u.r.me" target="_blank">i.m.u.r.me</a> <span class="dim">on Instagram</span>', 'output');
+  term.addHTML('  <span class="dim">@</span><a href="https://tiktok.com/@i.m.u.r.me" target="_blank">i.m.u.r.me</a> <span class="dim">on TikTok</span>', 'output');
+  term.addHTML('  <span class="dim">@</span><a href="https://youtube.com/@imurme-yt" target="_blank">imurme-yt</a> <span class="dim">on YouTube</span>', 'output');
+  term.addBlank();
 });
 
 // ── reels ───────────────────────────────────────────────────
