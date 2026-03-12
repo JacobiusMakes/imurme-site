@@ -496,6 +496,139 @@
   .panel-title { font-size: 22px; }
 }
 
+/* ── Listen — YouTube Embeds & Discography ────────────────── */
+
+.term-line:has(.listen-embeds),
+.term-line:has(.disco-table) {
+  display: block;
+  white-space: normal;
+  background: none;
+  padding-right: 0;
+  max-width: 100%;
+}
+
+.listen-embeds {
+  display: flex;
+  gap: 16px;
+  padding: 4px 0;
+}
+
+.listen-embed {
+  flex: 1;
+  min-width: 0;
+}
+
+.listen-embed-label {
+  font-size: 12px;
+  margin-bottom: 6px;
+  color: var(--term-fg-dim);
+}
+
+.listen-embed-wrap {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: #000;
+}
+
+.listen-embed-wrap iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Discography table */
+
+.disco-table {
+  padding: 4px 0;
+  max-width: 750px;
+}
+
+.disco-row {
+  display: grid;
+  grid-template-columns: 1fr 48px 48px 48px 52px 72px;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+
+.disco-row.disco-header {
+  border-bottom-color: var(--border-bright);
+  padding-bottom: 6px;
+  margin-bottom: 2px;
+}
+
+.disco-header span {
+  color: var(--term-comment);
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.disco-title {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.disco-meta {
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.disco-link {
+  text-align: right;
+}
+
+.disco-link a {
+  color: var(--term-link);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  transition: all 150ms ease;
+}
+
+.disco-link a:hover {
+  border-color: var(--border-bright);
+  background: var(--accent-dim);
+  color: var(--accent);
+}
+
+.disco-row:hover {
+  background: var(--accent-dim);
+}
+
+@media (max-width: 768px) {
+  .listen-embeds {
+    flex-direction: column;
+  }
+
+  .disco-row {
+    grid-template-columns: 1fr 40px 40px 40px 44px 60px;
+    gap: 4px;
+    font-size: 11px;
+  }
+
+  .disco-link a {
+    padding: 6px 8px;
+    min-height: 32px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
 /* ── Whoami (inline terminal) ─────────────────────────────── */
 
 /* The term-line wrapping whoami needs block display and normal whitespace */

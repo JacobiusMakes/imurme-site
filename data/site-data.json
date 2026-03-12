@@ -217,13 +217,32 @@
       "shares": 0
     }
   ],
+  "youtube": {
+    "featured": "grot-KHEkOQ",
+    "featuredTitle": "Locked In",
+    "latest": "5-XUohHGK2Q",
+    "latestTitle": "Formless",
+    "latestStart": 11
+  },
+  "discography": [
+    { "title": "Formless",                          "slug": "formless",                          "duration": "—", "bpm": "—", "key": "—", "released": "2026" },
+    { "title": "What They Dont Tell You",            "slug": "what-they-dont-tell-you",           "duration": "—", "bpm": "—", "key": "—", "released": "2026" },
+    { "title": "Rally 2 The Beat",                   "slug": "rally-2-the-beat",                  "duration": "—", "bpm": "—", "key": "—", "released": "2026" },
+    { "title": "Modular Psyche",                     "slug": "modular-psyche",                    "duration": "—", "bpm": "—", "key": "—", "released": "2026" },
+    { "title": "Full Brazilian",                     "slug": "full-brazilian",                    "duration": "—", "bpm": "—", "key": "—", "released": "2026" },
+    { "title": "Aura Farming",                       "slug": "aura-farming",                      "duration": "—", "bpm": "—", "key": "—", "released": "2026" },
+    { "title": "Jacobs Ladder",                      "slug": "jacobs-ladder",                     "duration": "—", "bpm": "—", "key": "—", "released": "2026" },
+    { "title": "Locked In (The Rhythm Is A Killer)", "slug": "locked-in-the-rhythm-is-a-killer",  "duration": "1:55", "bpm": "—", "key": "—", "released": "2025" }
+  ],
   "songs": [
-    "Rally2The Beat",
+    "Formless",
     "What They Dont Tell You",
+    "Rally 2 The Beat",
     "Modular Psyche",
     "Full Brazilian",
     "Aura Farming",
-    "Jacobs Ladder"
+    "Jacobs Ladder",
+    "Locked In (The Rhythm Is A Killer)"
   ],
   "about": {
     "tagline": "curated chaos set to music",

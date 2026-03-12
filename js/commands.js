@@ -358,19 +358,60 @@ reg('listen', ['play'], 'Listen to IMURME', false, async () => {
   term.addHTML('<span class="hl">LISTEN</span>', 'output');
   term.addBlank();
 
-  const songs = siteData?.songs || [];
-  if (songs.length > 0) {
-    for (const song of songs) {
-      await wait(60);
-      term.addHTML(`  <span class="accent">▸</span> ${song}`, 'output');
-    }
-    term.addBlank();
-  }
-
+  // Streaming links
   term.addHTML('  <span class="accent">spotify      </span><a href="https://open.spotify.com/artist/3GyTBvYVvSPZLz0iuvZXTd" target="_blank">Open Spotify</a>', 'output');
   term.addHTML('  <span class="accent">apple music  </span><a href="https://music.apple.com/us/artist/imurme/1817310491" target="_blank">Open Apple Music</a>', 'output');
   term.addHTML('  <span class="accent">soundcloud   </span><a href="https://soundcloud.com/IMURME" target="_blank">Open SoundCloud</a>', 'output');
   term.addBlank();
+
+  // YouTube embeds
+  const yt = siteData?.youtube;
+  if (yt) {
+    const startParam = yt.latestStart ? `&start=${yt.latestStart}` : '';
+    term.addHTML(`<div class="listen-embeds">
+      <div class="listen-embed">
+        <div class="listen-embed-label"><span class="accent">▸</span> ${escHtml(yt.featuredTitle || 'Featured')}</div>
+        <div class="listen-embed-wrap">
+          <iframe src="https://www.youtube.com/embed/${yt.featured}" title="${escAttr(yt.featuredTitle || 'Featured')}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+      </div>
+      <div class="listen-embed">
+        <div class="listen-embed-label"><span class="accent">▸</span> ${escHtml(yt.latestTitle || 'Latest')} <span class="dim">— newest</span></div>
+        <div class="listen-embed-wrap">
+          <iframe src="https://www.youtube.com/embed/${yt.latest}?${startParam}" title="${escAttr(yt.latestTitle || 'Latest')}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>`, 'output');
+    term.addBlank();
+  }
+
+  // Discography table
+  const disc = siteData?.discography || [];
+  if (disc.length > 0) {
+    term.addHTML('<span class="hl">DISCOGRAPHY</span>', 'output');
+    term.addBlank();
+
+    // Header
+    term.addHTML(`<div class="disco-table">
+      <div class="disco-row disco-header">
+        <span class="disco-title">TRACK</span>
+        <span class="disco-meta">DUR</span>
+        <span class="disco-meta">BPM</span>
+        <span class="disco-meta">KEY</span>
+        <span class="disco-meta">REL</span>
+        <span class="disco-link"></span>
+      </div>
+      ${disc.map(s => `<div class="disco-row">
+        <span class="disco-title accent">${escHtml(s.title)}</span>
+        <span class="disco-meta dim">${escHtml(s.duration)}</span>
+        <span class="disco-meta dim">${escHtml(s.bpm)}</span>
+        <span class="disco-meta dim">${escHtml(s.key)}</span>
+        <span class="disco-meta dim">${escHtml(s.released)}</span>
+        <span class="disco-link"><a href="https://distrokid.com/hyperfollow/imurme/${s.slug}" target="_blank">STREAM</a></span>
+      </div>`).join('')}
+    </div>`, 'output');
+    term.addBlank();
+  }
 });
 
 // ── home ────────────────────────────────────────────────────
