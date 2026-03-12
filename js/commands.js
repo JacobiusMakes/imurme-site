@@ -97,7 +97,7 @@ reg('whoami', ['who'], 'Who is IMURME?', false, async () => {
       <p class="dim">No genre. No rules. Just output.</p>
       <p>The name says everything: <span class="accent">I Am You Are Me.</span> There is no fourth wall here. You're not watching — you're inside it. You always were.</p>
     </div>
-  </div>`, 'output');
+  </div>`, 'output rich-block');
 
   term.addBlank();
 
@@ -381,7 +381,7 @@ reg('listen', ['play'], 'Listen to IMURME', false, async () => {
           <iframe src="https://www.youtube.com/embed/${yt.latest}?${startParam}" title="${escAttr(yt.latestTitle || 'Latest')}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
       </div>
-    </div>`, 'output');
+    </div>`, 'output rich-block');
     term.addBlank();
   }
 
@@ -409,7 +409,7 @@ reg('listen', ['play'], 'Listen to IMURME', false, async () => {
         <span class="disco-meta dim">${escHtml(s.released)}</span>
         <span class="disco-link"><a href="https://distrokid.com/hyperfollow/imurme/${s.slug}" target="_blank">STREAM</a></span>
       </div>`).join('')}
-    </div>`, 'output');
+    </div>`, 'output rich-block');
     term.addBlank();
   }
 });

@@ -498,8 +498,8 @@
 
 /* ── Listen — YouTube Embeds & Discography ────────────────── */
 
-.term-line:has(.listen-embeds),
-.term-line:has(.disco-table) {
+/* Rich block: overrides term-line inline-block/pre-wrap for complex HTML content */
+.term-line.rich-block {
   display: block;
   white-space: normal;
   background: none;
@@ -631,14 +631,7 @@
 
 /* ── Whoami (inline terminal) ─────────────────────────────── */
 
-/* The term-line wrapping whoami needs block display and normal whitespace */
-.term-line:has(.whoami-inline) {
-  display: block;
-  white-space: normal;
-  background: none;
-  padding-right: 0;
-  max-width: 100%;
-}
+/* whoami uses .rich-block class on term-line (see above) */
 
 .whoami-inline {
   padding: 8px 0;
