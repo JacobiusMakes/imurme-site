@@ -165,3 +165,174 @@
   50%  { opacity: 0.7; transform: translateY(1px); }
   100% { opacity: 1; transform: translateY(0); }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   Corruption Meltdown — Easter egg sequence
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Meltdown Overlay (black screen + typed messages) ──────── */
+
+#meltdown-overlay {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.meltdown-text {
+  font-family: var(--font-mono, monospace);
+  font-size: 28px;
+  color: #fff;
+  text-align: center;
+  padding: 24px;
+  line-height: 1.4;
+}
+
+.meltdown-cursor {
+  display: inline-block;
+  width: 14px;
+  height: 1.15em;
+  background: #fff;
+  vertical-align: text-bottom;
+  animation: blink 530ms step-end infinite;
+}
+
+/* ── Dial-up Artifacts ─────────────────────────────────────── */
+
+#dialup-artifacts {
+  position: fixed;
+  inset: 0;
+  z-index: 250;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.artifact-bar {
+  position: absolute;
+  top: var(--art-top, 50%);
+  left: 0;
+  width: 100%;
+  height: var(--art-height, 2px);
+  background: hsl(var(--art-hue, 120), 100%, 50%);
+  opacity: 0.7;
+  animation: artifactZip var(--art-duration, 0.5s) var(--art-delay, 0s) linear infinite;
+  mix-blend-mode: screen;
+}
+
+@keyframes artifactZip {
+  0%   { transform: translateX(-110%); opacity: 0; }
+  10%  { opacity: 0.8; }
+  90%  { opacity: 0.8; }
+  100% { transform: translateX(110%); opacity: 0; }
+}
+
+/* ── Meltdown Flip State ───────────────────────────────────── */
+
+.meltdown-flip {
+  transform: rotate(180deg) !important;
+  transition: transform 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.meltdown-stutter {
+  animation: meltdownStutter 120ms steps(2) infinite;
+}
+
+@keyframes meltdownStutter {
+  0%   { transform: rotate(180deg) translate(0, 0); }
+  50%  { transform: rotate(180deg) translate(3px, -2px); }
+  100% { transform: rotate(180deg) translate(-2px, 1px); }
+}
+
+/* ── Reset Overlay ─────────────────────────────────────────── */
+
+#reset-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  /* Counter-rotate so text is readable while page is flipped */
+  transform: rotate(180deg);
+}
+
+.reset-prompt {
+  text-align: center;
+  padding: 24px;
+}
+
+.reset-text {
+  font-family: var(--font-mono, monospace);
+  font-size: 18px;
+  color: #ff3333;
+  margin-bottom: 24px;
+  letter-spacing: 2px;
+  animation: resetFlicker 2s infinite;
+}
+
+.reset-hint {
+  font-family: var(--font-mono, monospace);
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.reset-hint .hl {
+  color: #fff;
+  font-weight: 700;
+}
+
+.reset-input {
+  font-family: var(--font-mono, monospace);
+  font-size: 16px;
+  background: transparent;
+  color: #fff;
+  border: none;
+  border-bottom: 1px solid #444;
+  outline: none;
+  text-align: center;
+  padding: 8px 16px;
+  width: 200px;
+  caret-color: #ff3333;
+}
+
+.reset-input:focus {
+  border-bottom-color: #ff3333;
+}
+
+.reset-btn {
+  font-family: var(--font-mono, monospace);
+  font-size: 14px;
+  background: transparent;
+  color: #ff3333;
+  border: 1px solid #ff3333;
+  padding: 14px 28px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 150ms ease;
+  min-height: 48px;
+}
+
+.reset-btn:hover,
+.reset-btn:active {
+  background: rgba(255, 51, 51, 0.1);
+}
+
+@keyframes resetFlicker {
+  0%, 93%, 100% { opacity: 1; }
+  94% { opacity: 0.2; }
+  95% { opacity: 1; }
+  96% { opacity: 0.4; }
+  97% { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+  .meltdown-text { font-size: 22px; }
+  .reset-text { font-size: 15px; }
+  .reset-btn { width: 80%; max-width: 300px; }
+}

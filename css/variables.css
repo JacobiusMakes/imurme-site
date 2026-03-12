@@ -54,3 +54,19 @@
     --terminal-pad: 16px;
   }
 }
+
+/* ── Corrupted State (red tint after meltdown) ──────────────── */
+
+.corrupted {
+  --term-fg: #ff1a1a;
+  --term-fg-dim: #cc1414;
+  --term-fg-bright: #ff4d4d;
+  --term-cursor: #ff1a1a;
+  --term-selection: rgba(255, 26, 26, 0.15);
+  --term-prompt: #ff6600;
+  --term-link: #ff6600;
+  --accent: #ff1a1a;
+  --accent-dim: rgba(255, 26, 26, 0.08);
+  --border: rgba(255, 26, 26, 0.12);
+  --border-bright: rgba(255, 26, 26, 0.3);
+}

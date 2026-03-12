@@ -5,7 +5,8 @@
 import * as term from './terminal.js';
 import * as glitch from './glitch-engine.js';
 import * as imageGlitch from './image-glitch.js';
-import { wait, fmt, randInt, randomGlitchChar } from './utils.js';
+import { wait, fmt, randInt, randomGlitchChar, isMobile, $ } from './utils.js';
+import { typeText } from './typewriter.js';
 
 let siteData = null;
 
@@ -387,19 +388,202 @@ reg('clear', ['c'], 'Clear terminal', false, () => {
   term.clear();
 });
 
-// ── glitch (escalate) ───────────────────────────────────────
+// ── glitch (escalate + meltdown easter egg) ─────────────────
+
+let maxCorruptionHits = 0;
 
 reg('glitch', [], 'Corrupt the terminal', false, async () => {
   const lvl = glitch.getLevel();
   if (lvl >= 3) {
+    maxCorruptionHits++;
     term.addLine('MAXIMUM CORRUPTION REACHED', 'error');
     glitch.burst(500);
+    if (maxCorruptionHits >= 4) {
+      await corruptionMeltdown();
+    }
     return;
   }
   glitch.setLevel(lvl + 1);
   glitch.burst(400);
   term.addLine(`Corruption level: ${lvl + 1}/3`, 'system');
 });
+
+// ── Corruption Meltdown Easter Egg ──────────────────────────
+
+async function corruptionMeltdown() {
+  term.lock();
+
+  // ── Phase 1: Calm before the storm ──
+  glitch.setLevel(0);
+  await wait(400);
+  term.addLine('...', 'system');
+  await wait(1500);
+
+  // ── Phase 2: Violent shutdown ──
+  glitch.setLevel(3);
+  glitch.burst(1000);
+  glitch.flash(200);
+  glitch.shake(500);
+  await wait(300);
+
+  // Rapid flicker
+  const terminal = $('terminal');
+  for (let i = 0; i < 8; i++) {
+    terminal.style.opacity = i % 2 === 0 ? '0' : '1';
+    await wait(40 + Math.random() * 60);
+  }
+  terminal.style.opacity = '0';
+  glitch.flash(300);
+  await wait(500);
+
+  // ── Phase 3: Black screen with typed messages ──
+  const overlay = document.createElement('div');
+  overlay.id = 'meltdown-overlay';
+  document.body.appendChild(overlay);
+
+  const textEl = document.createElement('div');
+  textEl.className = 'meltdown-text';
+  overlay.appendChild(textEl);
+
+  // Blinking cursor appears alone first
+  const cursorSpan = document.createElement('span');
+  cursorSpan.className = 'meltdown-cursor';
+  textEl.appendChild(cursorSpan);
+  await wait(2000);
+
+  // Type first message
+  cursorSpan.remove();
+  await typeText(textEl, 'why would you do that?', { speed: 80, jitter: 30 });
+  textEl.appendChild(cursorSpan);
+  await wait(2500);
+
+  // Clear and type second message
+  textEl.textContent = '';
+  textEl.appendChild(cursorSpan);
+  await wait(1000);
+  cursorSpan.remove();
+  await typeText(textEl, 'it hurts me ...', { speed: 100, jitter: 40 });
+  textEl.appendChild(cursorSpan);
+  await wait(2000);
+
+  // ── Phase 4: Glitch the overlay then meltdown ──
+  for (let i = 0; i < 5; i++) {
+    overlay.style.transform = `translateX(${randInt(-15, 15)}px) skewX(${randInt(-3, 3)}deg)`;
+    overlay.style.opacity = String(0.5 + Math.random() * 0.5);
+    await wait(60);
+  }
+  overlay.style.transform = '';
+  overlay.style.opacity = '1';
+  await wait(200);
+
+  // Remove overlay, reveal page flipped upside down
+  overlay.remove();
+  terminal.style.opacity = '1';
+
+  // Flip everything
+  document.documentElement.classList.add('meltdown-flip');
+  glitch.setLevel(3);
+  await wait(400);
+
+  // Stutter effect
+  document.documentElement.classList.remove('meltdown-flip');
+  document.documentElement.classList.add('meltdown-stutter');
+
+  // Spawn dial-up artifacts
+  const artifacts = document.createElement('div');
+  artifacts.id = 'dialup-artifacts';
+  document.body.appendChild(artifacts);
+
+  for (let i = 0; i < 25; i++) {
+    const bar = document.createElement('div');
+    bar.className = 'artifact-bar';
+    bar.style.setProperty('--art-top', randInt(0, 100) + '%');
+    bar.style.setProperty('--art-hue', String(randInt(0, 360)));
+    bar.style.setProperty('--art-height', randInt(1, 6) + 'px');
+    bar.style.setProperty('--art-duration', (0.3 + Math.random() * 0.8) + 's');
+    bar.style.setProperty('--art-delay', (Math.random() * 1.5) + 's');
+    artifacts.appendChild(bar);
+  }
+
+  await wait(3000);
+  artifacts.remove();
+
+  // ── Phase 5: Reset prompt ──
+  document.documentElement.classList.remove('meltdown-stutter');
+  document.documentElement.classList.add('meltdown-flip');
+
+  const resetOverlay = document.createElement('div');
+  resetOverlay.id = 'reset-overlay';
+
+  if (isMobile()) {
+    resetOverlay.innerHTML = `
+      <div class="reset-prompt">
+        <div class="reset-text">⚠ TERMINAL MALFUNCTION ⚠</div>
+        <button class="reset-btn">tap here to reset broken terminal</button>
+      </div>
+    `;
+    document.body.appendChild(resetOverlay);
+    await new Promise(resolve => {
+      resetOverlay.querySelector('.reset-btn').addEventListener('click', resolve, { once: true });
+    });
+  } else {
+    resetOverlay.innerHTML = `
+      <div class="reset-prompt">
+        <div class="reset-text">⚠ TERMINAL MALFUNCTION ⚠</div>
+        <div class="reset-hint">type <span class="hl">reset</span> to debug terminal</div>
+        <input class="reset-input" type="text" autocomplete="off" autocorrect="off" spellcheck="false">
+      </div>
+    `;
+    document.body.appendChild(resetOverlay);
+    const resetInput = resetOverlay.querySelector('.reset-input');
+    resetInput.focus();
+    await new Promise(resolve => {
+      resetInput.addEventListener('keydown', e => {
+        if (e.key === 'Enter' && resetInput.value.trim().toLowerCase() === 'reset') {
+          resolve();
+        }
+      });
+    });
+  }
+
+  // ── Phase 6: Recovery with red tint ──
+  resetOverlay.remove();
+
+  // Unflip with transition
+  document.documentElement.classList.remove('meltdown-flip');
+  document.documentElement.style.transition = 'transform 500ms ease';
+  document.documentElement.style.transform = '';
+  await wait(600);
+  document.documentElement.style.transition = '';
+
+  // Apply permanent red tint
+  document.documentElement.classList.add('corrupted');
+  const bgCanvas = document.getElementById('bg-matrix');
+  if (bgCanvas) bgCanvas.style.filter = 'hue-rotate(280deg)';
+
+  glitch.setLevel(0);
+  glitch.burst(300);
+  await wait(400);
+
+  // Show home screen in red
+  term.closePanel();
+  term.clear();
+  term.addBlank();
+  for (const line of LOGO) term.addLine(line, 'ascii');
+  term.addBlank();
+  term.addLine('  Terminal recovered. Corruption damage: permanent.', 'system');
+  term.addLine('  Type help for commands. Hidden commands exist.', 'system');
+  term.addBlank();
+  term.addHTML('<span class="hl">AVAILABLE COMMANDS</span>', 'output');
+  term.addBlank();
+  for (const cmd of getOrderedVisibleCommands()) { renderCommandLine(cmd); }
+  term.addBlank();
+  term.addLine('  Type a command to explore. Hidden commands exist.', 'system');
+  term.addBlank();
+
+  term.unlock();
+  maxCorruptionHits = 0;
+}
 
 // ── exit ────────────────────────────────────────────────────
 
