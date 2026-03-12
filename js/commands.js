@@ -50,7 +50,8 @@ export function getOrderedVisibleCommands() {
 }
 
 export function renderCommandLine(cmd) {
-  const aliases = cmd.aliases.length > 0 ? `<span class="cmd-aliases dim"> [${cmd.aliases.join(', ')}]</span>` : '';
+  const shown = cmd.aliases.slice(0, 2);
+  const aliases = shown.length > 0 ? `<span class="cmd-aliases dim"> [${shown.join(', ')}]</span>` : '';
   const el = term.addHTML(`  <span class="cmd-link accent" data-cmd="${cmd.name}">${cmd.name.padEnd(10)}</span>${cmd.desc}${aliases}`, 'output');
   el.querySelector('.cmd-link').addEventListener('click', (e) => {
     e.stopPropagation();
@@ -59,7 +60,7 @@ export function renderCommandLine(cmd) {
   return el;
 }
 
-reg('help', ['h', '?'], 'List available commands', false, async () => {
+reg('help', ['?'], 'List commands', false, async () => {
   term.addBlank();
   term.addHTML('<span class="hl">AVAILABLE COMMANDS</span>', 'output');
   term.addBlank();
@@ -75,7 +76,7 @@ reg('help', ['h', '?'], 'List available commands', false, async () => {
 
 // ── whoami ──────────────────────────────────────────────────
 
-reg('whoami', ['about', 'who'], 'Who is IMURME?', false, async () => {
+reg('whoami', ['who'], 'Who is IMURME?', false, async () => {
   term.clear();
   term.addBlank();
   term.addHTML('<span class="hl">WHO IS IMURME?</span>', 'output');
@@ -100,7 +101,7 @@ reg('whoami', ['about', 'who'], 'Who is IMURME?', false, async () => {
 
 // ── reels ───────────────────────────────────────────────────
 
-reg('reels', ['feed', 'content', 'r'], 'View the reel archive', false, async () => {
+reg('reels', ['feed'], 'Reel archive', false, async () => {
   term.addLine('Loading reel archive...', 'system');
   await wait(300);
   glitch.burst(400);
@@ -165,7 +166,7 @@ reg('stats', ['s'], 'Show page statistics', true, async () => {
 
 // ── links ───────────────────────────────────────────────────
 
-reg('links', ['l', 'socials'], 'Social links & platforms', false, async () => {
+reg('links', ['l'], 'Social links', false, async () => {
   term.clear();
   term.addBlank();
   term.addHTML('<span class="hl">LINKS</span>', 'output');
@@ -188,7 +189,7 @@ reg('links', ['l', 'socials'], 'Social links & platforms', false, async () => {
 
 let imageGlitchInited = false;
 
-reg('generate', ['gen', 'g', 'corrupt'], 'Image & text corruption tools', false, async () => {
+reg('generate', ['gen', 'art', 'corrupt'], 'Perception distortion', false, async () => {
   term.addLine('Initializing corruption engine...', 'system');
   await wait(200);
   glitch.burst(300);
@@ -293,7 +294,7 @@ async function copyGenOutput(el) {
 
 // ── contact ────────────────────────────────────────────────
 
-reg('contact', ['dm', 'email'], 'Get in touch', false, async () => {
+reg('contact', ['dm'], 'Get in touch', false, async () => {
   term.clear();
   term.addBlank();
   term.addHTML('<span class="hl">CONTACT</span>', 'output');
@@ -310,7 +311,7 @@ reg('contact', ['dm', 'email'], 'Get in touch', false, async () => {
 
 // ── projects ───────────────────────────────────────────────
 
-reg('projects', ['work', 'music'], 'View projects & music', false, async () => {
+reg('projects', ['work'], 'Projects & music', false, async () => {
   term.clear();
   term.addBlank();
   term.addHTML('<span class="hl">PROJECTS</span>', 'output');
@@ -337,7 +338,7 @@ reg('projects', ['work', 'music'], 'View projects & music', false, async () => {
 
 // ── listen ──────────────────────────────────────────────────
 
-reg('listen', ['play', 'audio', 'viz'], 'Listen to IMURME', false, async () => {
+reg('listen', ['play'], 'Listen to IMURME', false, async () => {
   term.clear();
   term.addBlank();
   term.addHTML('<span class="hl">LISTEN</span>', 'output');
@@ -360,7 +361,7 @@ reg('listen', ['play', 'audio', 'viz'], 'Listen to IMURME', false, async () => {
 
 // ── home ────────────────────────────────────────────────────
 
-reg('home', ['back'], 'Return to home screen', false, () => {
+reg('home', ['back'], 'Home screen', false, () => {
   term.closePanel();
   term.clear();
   term.addBlank();
@@ -382,7 +383,7 @@ reg('home', ['back'], 'Return to home screen', false, () => {
 
 // ── clear ───────────────────────────────────────────────────
 
-reg('clear', ['cls', 'c'], 'Clear terminal', false, () => {
+reg('clear', ['c'], 'Clear terminal', false, () => {
   term.clear();
 });
 
@@ -402,7 +403,7 @@ reg('glitch', [], 'Corrupt the terminal', false, async () => {
 
 // ── exit ────────────────────────────────────────────────────
 
-reg('exit', ['quit', 'q'], 'Shut down terminal', false, async () => {
+reg('exit', ['q'], 'Shut down', false, async () => {
   term.lock();
   term.addLine('Shutting down...', 'system');
   await wait(500);

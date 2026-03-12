@@ -329,11 +329,6 @@
 /* ── Responsive — Mobile ──────────────────────────────────── */
 
 @media (max-width: 768px) {
-  /* Hide command aliases on mobile to prevent line wrapping */
-  .cmd-aliases {
-    display: none;
-  }
-
   /* Terminal output & content panels: momentum scrolling on iOS */
   #terminal-output,
   .content-panel {
