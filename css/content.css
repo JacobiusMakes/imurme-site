@@ -508,16 +508,15 @@
 }
 
 .whoami-inline {
-  display: flex;
-  gap: 24px;
-  align-items: flex-start;
   padding: 8px 0;
   max-width: 800px;
+  overflow: hidden; /* contain the float */
 }
 
 .whoami-photo-frame {
-  width: 280px;
-  flex-shrink: 0;
+  float: right;
+  width: 220px;
+  margin: 0 0 16px 24px;
   background: var(--term-bg);
   border: 1px solid var(--accent);
   border-radius: 2px;
@@ -557,11 +556,6 @@
   opacity: 0.5;
 }
 
-.whoami-bio {
-  flex: 1;
-  min-width: 0;
-}
-
 .whoami-bio p {
   color: var(--term-fg-dim);
   font-size: 13px;
@@ -589,13 +583,9 @@
 }
 
 @media (max-width: 768px) {
-  .whoami-inline {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
   .whoami-photo-frame {
-    width: 150px;
+    width: 140px;
+    margin: 0 0 12px 16px;
   }
 
   .whoami-bio p {

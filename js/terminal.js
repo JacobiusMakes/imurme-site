@@ -27,10 +27,11 @@ export function init(commandHandler) {
 
   $('input-prompt').textContent = PROMPT;
 
-  // Focus management
+  // Focus management — skip for cmd-links (they trigger commands, not typing)
   document.addEventListener('click', e => {
     if (locked) return;
     if (e.target.closest('.content-panel') || e.target.closest('.panel-close')) return;
+    if (e.target.closest('.cmd-link')) return;
     hiddenInput.focus();
   });
 
