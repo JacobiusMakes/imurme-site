@@ -50,8 +50,8 @@ export function getOrderedVisibleCommands() {
 }
 
 export function renderCommandLine(cmd) {
-  const aliases = cmd.aliases.length > 0 ? ` <span class="dim">[${cmd.aliases.join(', ')}]</span>` : '';
-  const el = term.addHTML(`  <span class="cmd-link accent" data-cmd="${cmd.name}">${cmd.name.padEnd(12)}</span>${cmd.desc}${aliases}`, 'output');
+  const aliases = cmd.aliases.length > 0 ? `<span class="cmd-aliases dim"> [${cmd.aliases.join(', ')}]</span>` : '';
+  const el = term.addHTML(`  <span class="cmd-link accent" data-cmd="${cmd.name}">${cmd.name.padEnd(10)}</span>${cmd.desc}${aliases}`, 'output');
   el.querySelector('.cmd-link').addEventListener('click', (e) => {
     e.stopPropagation();
     execute(cmd.name);
