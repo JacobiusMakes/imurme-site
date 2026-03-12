@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IMURME</title>
+  <meta name="description" content="curated chaos set to music. meme compilations that hit different.">
+  <meta property="og:title" content="IMURME">
+  <meta property="og:description" content="curated chaos set to music.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#00ff41">
+
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/terminal.css">
+  <link rel="stylesheet" href="css/glitch.css">
+  <link rel="stylesheet" href="css/content.css">
+
+  <style>
+    /* Inline critical font-face to avoid FOUT */
+    @font-face {
+      font-family: 'JetBrains Mono';
+      src: url('assets/fonts/JetBrainsMono-Regular.woff2') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'JetBrains Mono';
+      src: url('assets/fonts/JetBrainsMono-Bold.woff2') format('woff2');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
+
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+
+  <!-- ── Boot Screen ──────────────────────────────────── -->
+  <div id="boot-screen">
+    <div id="boot-text" style="font-size:12px;color:var(--term-fg-dim);max-width:600px;padding:24px"></div>
+  </div>
+  <div id="skip-hint">press any key to skip</div>
+
+  <!-- ── Terminal ─────────────────────────────────────── -->
+  <div id="terminal">
+    <div id="terminal-output"></div>
+    <div id="input-area">
+      <span id="input-prompt"></span>
+      <div id="input-display">
+        <span id="input-text"></span><span id="cursor"></span>
+      </div>
+    </div>
+    <input id="hidden-input" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  </div>
+
+  <!-- ── Overlay Layers ───────────────────────────────── -->
+  <div id="scanlines"></div>
+  <div id="vignette"></div>
+  <div id="noise-overlay"></div>
+  <div id="screen-tear"></div>
+  <div id="flash-overlay"></div>
+
+  <!-- ── Content Panels (revealed by commands) ────────── -->
+
+  <!-- Reels Panel -->
+  <div class="content-panel" id="reels-panel">
+    <button class="panel-close">[ESC] back to terminal</button>
+    <div class="panel-inner">
+      <h2 class="panel-title glitch-text" data-text="REEL ARCHIVE">REEL ARCHIVE</h2>
+      <p class="panel-sub">click to watch on Instagram</p>
+      <div class="reels-grid"></div>
+    </div>
+  </div>
+
+  <!-- Generator Panel -->
+  <div class="content-panel" id="gen-panel">
+    <button class="panel-close">[ESC] back to terminal</button>
+    <div class="panel-inner">
+
+      <!-- ── Image Corrupt Tool ── -->
+      <h2 class="panel-title glitch-text" data-text="IMAGE CORRUPT">IMAGE CORRUPT</h2>
+      <p class="panel-sub">upload. destroy. download.</p>
+
+      <div class="corrupt-layout">
+        <div class="corrupt-preview">
+          <div class="corrupt-drop" id="corrupt-drop">
+            <div class="corrupt-drop-inner">
+              <span class="corrupt-drop-icon">&#9638;</span>
+              <span class="accent">DROP IMAGE HERE</span>
+              <span class="dim">or click to upload &middot; paste from clipboard</span>
+            </div>
+            <input type="file" id="corrupt-file" accept="image/*" hidden>
+          </div>
+          <canvas id="corrupt-canvas" style="display:none"></canvas>
+        </div>
+
+        <div class="corrupt-controls">
+          <div class="corrupt-effect">
+            <label><span class="accent">RGB SHIFT</span> <span class="effect-val" data-for="rgb">0</span></label>
+            <input type="range" class="effect-slider" data-effect="rgb" min="0" max="50" value="0">
+          </div>
+          <div class="corrupt-effect">
+            <label><span class="accent">SCAN LINES</span> <span class="effect-val" data-for="scan">0</span></label>
+            <input type="range" class="effect-slider" data-effect="scan" min="0" max="100" value="0">
+          </div>
+          <div class="corrupt-effect">
+            <label><span class="accent">NOISE</span> <span class="effect-val" data-for="noise">0</span></label>
+            <input type="range" class="effect-slider" data-effect="noise" min="0" max="100" value="0">
+          </div>
+          <div class="corrupt-effect">
+            <label><span class="accent">GLITCH</span> <span class="effect-val" data-for="glitch">0</span></label>
+            <input type="range" class="effect-slider" data-effect="glitch" min="0" max="30" value="0">
+          </div>
+          <div class="corrupt-effect">
+            <label><span class="accent">VHS</span> <span class="effect-val" data-for="vhs">0</span></label>
+            <input type="range" class="effect-slider" data-effect="vhs" min="0" max="60" value="0">
+          </div>
+          <div class="corrupt-effect">
+            <label><span class="accent">PIXEL SORT</span> <span class="effect-val" data-for="sort">0</span></label>
+            <input type="range" class="effect-slider" data-effect="sort" min="0" max="100" value="0">
+          </div>
+          <div class="corrupt-effect">
+            <label><span class="accent">POSTERIZE</span> <span class="effect-val" data-for="poster">0</span></label>
+            <input type="range" class="effect-slider" data-effect="poster" min="0" max="100" value="0">
+          </div>
+
+          <div class="corrupt-actions">
+            <button class="gen-btn" id="corrupt-random">RANDOMIZE</button>
+            <button class="gen-btn" id="corrupt-reset">RESET</button>
+            <button class="gen-btn primary" id="corrupt-download">DOWNLOAD</button>
+          </div>
+          <button class="corrupt-new-btn" id="corrupt-new">NEW IMAGE</button>
+        </div>
+      </div>
+
+      <!-- ── Text Glitch (secondary) ── -->
+      <div class="corrupt-divider"><span class="dim">── TEXT GLITCH ──</span></div>
+      <div class="gen-container">
+        <input class="gen-input" type="text" placeholder="type something..." maxlength="100">
+        <div class="gen-modes">
+          <button class="gen-mode-btn active" data-mode="glitch">Glitch</button>
+          <button class="gen-mode-btn" data-mode="zalgo">Zalgo</button>
+          <button class="gen-mode-btn" data-mode="matrix">Matrix</button>
+          <button class="gen-mode-btn" data-mode="corrupt">Corrupt</button>
+          <button class="gen-mode-btn" data-mode="scan">Scan</button>
+        </div>
+        <div class="gen-output"><span style="color:var(--term-comment)">type something...</span></div>
+        <div class="gen-actions">
+          <button class="gen-btn primary">COPY TEXT</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Visualizer Panel (Phase 4) -->
+  <div class="content-panel" id="visualizer-panel">
+    <button class="panel-close">[ESC] back to terminal</button>
+    <canvas></canvas>
+    <div class="viz-info">
+      <div class="viz-track glitch-text" data-text="VISUALIZER">VISUALIZER</div>
+      <div class="viz-hint">click anywhere to play/pause</div>
+    </div>
+  </div>
+
+</body>
+</html>

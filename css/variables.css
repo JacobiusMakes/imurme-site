@@ -1,0 +1,56 @@
+/* ═══════════════════════════════════════════════════════════
+   IMURME — Design Tokens
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Terminal Palette ─────────────────────────────────────── */
+  --term-bg: #0a0a0a;
+  --term-fg: #00ff41;
+  --term-fg-dim: #00cc33;
+  --term-fg-bright: #33ff66;
+  --term-cursor: #00ff41;
+  --term-selection: rgba(0, 255, 65, 0.15);
+  --term-prompt: #00bfff;
+  --term-error: #ff3333;
+  --term-warning: #ffaa00;
+  --term-comment: #555;
+  --term-link: #00bfff;
+
+  /* ── Glitch Palette ──────────────────────────────────────── */
+  --glitch-r: #ff0040;
+  --glitch-c: #00ffff;
+  --glitch-b: #0040ff;
+
+  /* ── Content Palette ─────────────────────────────────────── */
+  --bg-deep: #050505;
+  --bg: #0a0a0a;
+  --bg-surface: #111;
+  --bg-elevated: #1a1a1a;
+  --border: rgba(0, 255, 65, 0.12);
+  --border-bright: rgba(0, 255, 65, 0.3);
+  --text-1: #e0e0e0;
+  --text-2: #999;
+  --text-3: #555;
+  --accent: #00ff41;
+  --accent-dim: rgba(0, 255, 65, 0.08);
+
+  /* ── Typography ──────────────────────────────────────────── */
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', 'Cascadia Code', monospace;
+  --font-size: 14px;
+  --line-height: 1.6;
+
+  /* ── Timing ──────────────────────────────────────────────── */
+  --cursor-blink: 530ms;
+  --type-speed: 30ms;
+  --glitch-duration: 150ms;
+
+  /* ── Spacing ─────────────────────────────────────────────── */
+  --terminal-pad: 24px;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --font-size: 13px;
+    --terminal-pad: 16px;
+  }
+}

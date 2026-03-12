@@ -1,0 +1,167 @@
+/* ═══════════════════════════════════════════════════════════
+   Glitch Effects
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Noise Overlay ─────────────────────────────────────────── */
+
+#noise-overlay {
+  position: fixed;
+  inset: 0;
+  opacity: var(--noise-opacity, 0.03);
+  pointer-events: none;
+  z-index: 98;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 128px;
+  animation: noise-shift 80ms steps(4) infinite;
+  mix-blend-mode: overlay;
+}
+
+@keyframes noise-shift {
+  0%   { background-position: 0 0; }
+  25%  { background-position: -64px 32px; }
+  50%  { background-position: 32px -64px; }
+  75%  { background-position: -32px -32px; }
+  100% { background-position: 64px 64px; }
+}
+
+/* ── Chromatic Aberration ──────────────────────────────────── */
+
+.glitch-ab {
+  text-shadow:
+    calc(var(--ab-x, 0) * 1px) calc(var(--ab-y, 0) * 1px) 0 var(--glitch-r),
+    calc(var(--ab-x, 0) * -1px) calc(var(--ab-y, 0) * -0.5px) 0 var(--glitch-c);
+}
+
+/* ── Screen Tear ───────────────────────────────────────────── */
+
+.screen-tear {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 97;
+  opacity: 0;
+}
+
+.screen-tear.active {
+  opacity: 1;
+}
+
+.tear-slice {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: var(--slice-h, 3px);
+  top: var(--slice-y, 50%);
+  background: var(--term-bg);
+  overflow: hidden;
+  transform: translateX(var(--slice-offset, 0px));
+}
+
+/* ── Screen Flash ──────────────────────────────────────────── */
+
+#flash-overlay {
+  position: fixed;
+  inset: 0;
+  background: white;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 150;
+  transition: opacity 50ms linear;
+}
+
+#flash-overlay.active {
+  opacity: 0.15;
+}
+
+/* ── Screen Shake ──────────────────────────────────────────── */
+
+.shake {
+  animation: screenShake 100ms linear;
+}
+
+@keyframes screenShake {
+  0%   { transform: translate(0, 0); }
+  20%  { transform: translate(-3px, 1px); }
+  40%  { transform: translate(2px, -2px); }
+  60%  { transform: translate(-1px, 2px); }
+  80%  { transform: translate(3px, -1px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ── Glitch Text (for headings / logo) ─────────────────────── */
+
+.glitch-text {
+  position: relative;
+  display: inline-block;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.glitch-text::before {
+  color: var(--glitch-r);
+  z-index: -1;
+  animation: glitch-1 3s infinite linear alternate-reverse;
+}
+
+.glitch-text::after {
+  color: var(--glitch-c);
+  z-index: -1;
+  animation: glitch-2 2s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-1 {
+  0%   { clip-path: inset(40% 0 61% 0); transform: translate(-2px, 0); }
+  5%   { clip-path: inset(92% 0 1% 0); transform: translate(1px, 0); }
+  10%  { clip-path: inset(12% 0 78% 0); transform: translate(-1px, 0); }
+  15%  { clip-path: inset(0 0 100% 0); transform: translate(0); }
+  20%  { clip-path: inset(65% 0 5% 0); transform: translate(3px, 0); }
+  25%  { clip-path: inset(0 0 100% 0); transform: translate(0); }
+  30%  { clip-path: inset(8% 0 80% 0); transform: translate(-2px, 0); }
+  35%  { clip-path: inset(0 0 100% 0); transform: translate(0); }
+  100% { clip-path: inset(0 0 100% 0); transform: translate(0); }
+}
+
+@keyframes glitch-2 {
+  0%   { clip-path: inset(25% 0 58% 0); transform: translate(2px, 0); }
+  3%   { clip-path: inset(75% 0 10% 0); transform: translate(-1px, 0); }
+  6%   { clip-path: inset(0 0 100% 0); transform: translate(0); }
+  12%  { clip-path: inset(50% 0 30% 0); transform: translate(1px, 0); }
+  15%  { clip-path: inset(0 0 100% 0); transform: translate(0); }
+  100% { clip-path: inset(0 0 100% 0); transform: translate(0); }
+}
+
+/* ── Flicker ───────────────────────────────────────────────── */
+
+.flicker {
+  animation: flicker 4s infinite;
+}
+
+@keyframes flicker {
+  0%, 97%, 100% { opacity: 1; }
+  97.5% { opacity: 0.8; }
+  98% { opacity: 1; }
+  98.5% { opacity: 0.6; }
+  99% { opacity: 1; }
+}
+
+/* ── Text Scramble (applied per-character via JS) ──────────── */
+
+.char-scramble {
+  display: inline-block;
+  animation: charScramble 200ms steps(4) forwards;
+}
+
+@keyframes charScramble {
+  0%   { opacity: 0.3; transform: translateY(-2px); }
+  50%  { opacity: 0.7; transform: translateY(1px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
