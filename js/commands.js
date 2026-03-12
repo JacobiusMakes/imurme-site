@@ -78,26 +78,21 @@ reg('help', ['?'], 'List commands', false, async () => {
 // ── whoami ──────────────────────────────────────────────────
 
 reg('whoami', ['who'], 'Who is IMURME?', false, async () => {
-  term.clear();
-  term.addBlank();
-  term.addHTML('<span class="hl">WHO IS IMURME?</span>', 'output');
-  term.addBlank();
-  await term.typeLine('  I Am You Are Me', 'output', 25);
-  term.addBlank();
-  await term.typeLine('  curated chaos set to music.', 'output', 25);
-  term.addLine('  meme compilations that hit different.', 'output');
-  term.addBlank();
+  term.addLine('Decrypting identity...', 'system');
+  await wait(300);
+  glitch.burst(300);
+  await wait(400);
 
+  // Populate stats if available
   const stats = siteData?.meta;
   if (stats) {
-    term.addHTML(`  <span class="hl">${fmt(stats.totalReels)}</span> <span class="dim">reels</span>  //  <span class="hl">${fmt(stats.totalViews)}</span> <span class="dim">views</span>  //  <span class="dim">est. 2026</span>`, 'output');
-    term.addBlank();
+    const reelsEl = document.getElementById('whoami-reels');
+    const viewsEl = document.getElementById('whoami-views');
+    if (reelsEl) reelsEl.textContent = fmt(stats.totalReels);
+    if (viewsEl) viewsEl.textContent = fmt(stats.totalViews);
   }
 
-  term.addHTML('  <span class="dim">@</span><a href="https://instagram.com/i.m.u.r.me" target="_blank">i.m.u.r.me</a> <span class="dim">on Instagram</span>', 'output');
-  term.addHTML('  <span class="dim">@</span><a href="https://tiktok.com/@i.m.u.r.me" target="_blank">i.m.u.r.me</a> <span class="dim">on TikTok</span>', 'output');
-  term.addHTML('  <span class="dim">@</span><a href="https://youtube.com/@imurme-yt" target="_blank">imurme-yt</a> <span class="dim">on YouTube</span>', 'output');
-  term.addBlank();
+  term.openPanel('whoami-panel');
 });
 
 // ── reels ───────────────────────────────────────────────────
